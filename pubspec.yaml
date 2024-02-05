@@ -9,13 +9,12 @@ environment:
   sdk: ">=3.2.4 <4.0.0"
 
 dependencies:
-  blackfoot_flutter_lint: ^1.1.0
+  blackfoot_flutter_lint: ^2.0.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
@@ -45,5 +44,3 @@ flutter:
           weight: 400
         - asset: assets/fonts/Geist-Bold.otf
           weight: 700
-        - asset: assets/fonts/Geist-Black.otf
-          weight: 900
