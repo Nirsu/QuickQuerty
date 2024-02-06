@@ -15,17 +15,51 @@ class _HomePageState extends State<HomePage> {
   final String wordsToType =
       'just place what long many person part know small play';
   int currentIndex = -1;
-  String currentWords = '';
+  List<TextSpan> typedWords = <TextSpan>[];
 
   void _onKeyDown(RawKeyEvent event) {
-    if (event is RawKeyDownEvent) {
-      if (event.logicalKey.keyLabel.toLowerCase() ==
-          wordsToType[currentIndex + 1].toLowerCase()) {
+    if (event is RawKeyDownEvent && currentIndex + 1 < wordsToType.length) {
+      final String char = event.logicalKey.keyLabel.toLowerCase();
+      final RegExp letterNumberSpaceRegExp = RegExp(r'^[a-zA-Z0-9 ]$');
+
+      if (event.logicalKey == LogicalKeyboardKey.backspace &&
+          typedWords.isNotEmpty) {
         setState(() {
-          currentWords += wordsToType[currentIndex + 1];
-          currentIndex++;
+          typedWords.removeLast();
+          currentIndex--;
         });
+
+        return;
       }
+
+      // Check if the character is a letter, number, or space
+      if (!letterNumberSpaceRegExp.hasMatch(char)) return;
+
+      if (char == wordsToType[currentIndex + 1].toLowerCase()) {
+        // Correct letter
+        typedWords.add(
+          TextSpan(
+            text: char,
+            style: context.theme.textTheme.bodyMedium, // Correct letter color
+          ),
+        );
+      } else {
+        // Incorrect letter
+        typedWords.add(
+          TextSpan(
+            text: char,
+            style: context.theme.textTheme.bodyMedium!.copyWith(
+              color: context.theme.colorScheme.error,
+            ),
+          ),
+        );
+      }
+
+      setState(
+        () {
+          currentIndex++;
+        },
+      );
     }
   }
 
@@ -45,7 +79,14 @@ class _HomePageState extends State<HomePage> {
                   color: context.theme.colorScheme.secondary,
                 ),
               ),
-              Text(currentWords),
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    ...typedWords,
+                  ],
+                  style: context.theme.textTheme.bodyMedium,
+                ),
+              ),
             ],
           ),
         ),
