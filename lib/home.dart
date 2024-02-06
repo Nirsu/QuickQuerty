@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quick_querty/core/themes/extensions/theme_extension.dart';
 
 /// Home page widget.
@@ -11,40 +12,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  final String wordsToType =
+      'just place what long many person part know small play';
+  int currentIndex = -1;
+  String currentWords = '';
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _onKeyDown(RawKeyEvent event) {
+    if (event is RawKeyDownEvent) {
+      if (event.logicalKey.keyLabel.toLowerCase() ==
+          wordsToType[currentIndex + 1].toLowerCase()) {
+        setState(() {
+          currentWords += wordsToType[currentIndex + 1];
+          currentIndex++;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            if (_counter >= 1)
+      body: RawKeyboardListener(
+        focusNode: FocusNode(),
+        autofocus: true,
+        onKey: _onKeyDown,
+        child: Center(
+          child: Stack(
+            children: <Widget>[
               Text(
-                'This is cool !',
-                style: context.theme.textTheme.bodySmall,
+                wordsToType,
+                style: context.theme.textTheme.bodyMedium!.copyWith(
+                  color: context.theme.colorScheme.secondary,
+                ),
               ),
-          ],
+              Text(currentWords),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
