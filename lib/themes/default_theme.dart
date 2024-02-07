@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_querty/core/themes/extensions/color_extension.dart';
+import 'package:quick_querty/themes/extensions/color_extension.dart';
 
 const Color _primaryTextColor = Color(0xFFfafafa);
 const Color _secondaryTextColor = Color(0xFFa1a1aa);
