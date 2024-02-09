@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_querty/quote/quote_service.dart';
 import 'package:quick_querty/themes/extensions/theme_extension.dart';
+import 'package:quick_querty/widgets/button_bar/custom_button_bar.dart';
+import 'package:quick_querty/widgets/button_bar/custom_button_bar_item.dart';
 
 /// Home page widget.
 class HomePage extends StatefulWidget {
@@ -102,7 +104,30 @@ class _HomePageState extends State<HomePage> {
                   onKey: _onKeyDown,
                   child: Center(
                     child: Stack(
+                      alignment: Alignment.center,
                       children: <Widget>[
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 64),
+                            child: CustomButtonBar(
+                              items: <CustomButtonBarItem>[
+                                CustomButtonBarItem(
+                                  label: 'quote',
+                                  onPressed: () {},
+                                ),
+                                CustomButtonBarItem(
+                                  label: 'word',
+                                  onPressed: () {},
+                                ),
+                                CustomButtonBarItem(
+                                  label: 'time',
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         Text(
                           _wordsToType,
                           style: context.theme.textTheme.bodyMedium!.copyWith(
